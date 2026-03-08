@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitBloom Games — Small Seed, Big Fun</title>
+    <meta name="description" content="BitBloom Games — 작지만 빠져드는 캐주얼 모바일 게임 스튜디오">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050510;
+            --surface: #0c0c1d;
+            --card: #111128;
+            --neon: #a855f7;
+            --neon-bright: #c084fc;
+            --neon-glow: rgba(168, 85, 247, 0.4);
+            --neon-dim: rgba(168, 85, 247, 0.1);
+            --gold: #fbbf24;
+            --gold-glow: rgba(251, 191, 36, 0.3);
+            --cyan: #22d3ee;
+            --cyan-glow: rgba(34, 211, 238, 0.3);
+            --green: #34d399;
+            --green-glow: rgba(52, 211, 153, 0.3);
+            --text: #e8e6f0;
+            --text-dim: #6b6894;
+            --border: rgba(168, 85, 247, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── CANVAS PARTICLES ── */
+        #particles {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 100;
+            padding: 12px 32px;
+            display: flex; align-items: center; gap: 40px;
+            background: rgba(12, 12, 29, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 18px; font-weight: 800; color: var(--text);
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--neon), var(--gold));
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 0 20px var(--neon-glow);
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 0 20px var(--neon-glow); }
+            50% { box-shadow: 0 0 30px var(--neon-glow), 0 0 60px rgba(168,85,247,0.15); }
+        }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a {
+            color: var(--text-dim); text-decoration: none; font-size: 13px;
+            font-weight: 600; transition: all 0.3s; letter-spacing: 0.5px;
+        }
+        .nav-links a:hover { color: var(--neon-bright); text-shadow: 0 0 12px var(--neon-glow); }
+
+        /* ── MAIN FRAME ── */
+        .main-frame {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .frame-box {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(12,12,29,0.9) 0%, rgba(5,5,16,0.95) 100%);
+            overflow: hidden;
+        }
+        .frame-box::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--neon-glow), transparent 40%, transparent 60%, var(--gold-glow));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 100px 40px 60px;
+            position: relative;
+        }
+        .hero-bg-glow {
+            position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 600px;
+            background: radial-gradient(ellipse, var(--neon-glow) 0%, rgba(168,85,247,0.08) 40%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+        .hero-bg-glow2 {
+            position: absolute; top: 50px; right: -100px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 60%);
+            pointer-events: none; z-index: 0; opacity: 0.5;
+        }
+        .hero-content { position: relative; z-index: 1; }
+
+        .hero-logo {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--neon), #7c3aed);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 44px;
+            margin: 0 auto 16px;
+            box-shadow: 0 0 40px var(--neon-glow), 0 0 80px rgba(168,85,247,0.15);
+            animation: heroLogoPulse 4s ease-in-out infinite;
+        }
+        @keyframes heroLogoPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px var(--neon-glow); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px var(--neon-glow), 0 0 100px rgba(168,85,247,0.2); }
+        }
+        .hero-brand {
+            font-size: 16px; font-weight: 700;
+            color: var(--neon-bright);
+            letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 32px;
+            text-shadow: 0 0 20px var(--neon-glow);
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 900; line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+        .hero h1 .glow-text {
+            background: linear-gradient(135deg, var(--neon-bright), #e879f9, var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px var(--neon-glow));
+        }
+        .hero-sub {
+            font-size: 17px; color: var(--text-dim);
+            max-width: 460px; margin: 0 auto 40px;
+        }
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 36px; border-radius: 12px;
+            background: transparent; color: var(--neon-bright);
+            font-size: 14px; font-weight: 700;
+            text-decoration: none; letter-spacing: 1px;
+            border: 1.5px solid var(--neon);
+            transition: all 0.3s;
+            text-shadow: 0 0 10px var(--neon-glow);
+        }
+        .hero-cta:hover {
+            background: var(--neon); color: #fff;
+            box-shadow: 0 0 30px var(--neon-glow), 0 0 60px rgba(168,85,247,0.2);
+            text-shadow: none;
+        }
+
+        /* ── floating decorative shapes ── */
+        .float-shape {
+            position: absolute; pointer-events: none; z-index: 0;
+            font-size: 28px; opacity: 0.6;
+            animation: floatDrift 8s ease-in-out infinite;
+        }
+        .float-shape:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; font-size: 24px; }
+        .float-shape:nth-child(2) { top: 25%; right: 10%; animation-delay: 2s; font-size: 20px; }
+        .float-shape:nth-child(3) { bottom: 30%; left: 12%; animation-delay: 4s; font-size: 18px; }
+        .float-shape:nth-child(4) { top: 60%; right: 8%; animation-delay: 1s; font-size: 22px; }
+        .float-shape:nth-child(5) { bottom: 15%; right: 20%; animation-delay: 3s; font-size: 16px; }
+        @keyframes floatDrift {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-12px) rotate(5deg); }
+            50% { transform: translateY(-6px) rotate(-3deg); }
+            75% { transform: translateY(-18px) rotate(4deg); }
+        }
+
+        /* ── GAMES SECTION ── */
+        .games-section { padding: 80px 40px; position: relative; z-index: 1; }
+        .section-label {
+            text-align: center; margin-bottom: 48px;
+        }
+        .section-label h2 {
+            font-size: 32px; font-weight: 800; margin-bottom: 8px;
+        }
+        .section-label p { color: var(--text-dim); font-size: 15px; }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px; max-width: 900px; margin: 0 auto;
+        }
+        .game-card {
+            background: rgba(17, 17, 40, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 24px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card::before {
+            content: '';
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-bright), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .game-card:hover::before { opacity: 1; }
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(168, 85, 247, 0.3);
+            box-shadow: 0 8px 40px rgba(168, 85, 247, 0.1);
+        }
+        .game-card.featured:hover {
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 8px 40px rgba(251, 191, 36, 0.1);
+        }
+        .game-icon {
+            width: 72px; height: 72px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+        .game-icon.gold-theme {
+            background: linear-gradient(135deg, #2c1810, #3d2014);
+            box-shadow: 0 0 24px var(--gold-glow);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+        .game-icon.purple-theme {
+            background: linear-gradient(135deg, var(--surface), var(--card));
+            box-shadow: 0 0 24px var(--neon-dim);
+            border: 1px solid var(--border);
+        }
+        .game-icon.cyan-theme {
+            background: linear-gradient(135deg, #0c1a2d, #0f2033);
+            box-shadow: 0 0 24px var(--cyan-glow);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+        }
+        .game-title {
+            font-size: 18px; font-weight: 700; margin-bottom: 6px;
+        }
+        .game-desc {
+            font-size: 13px; color: var(--text-dim); margin-bottom: 14px;
+            line-height: 1.5;
+        }
+        .game-badge {
+            display: inline-block;
+            padding: 4px 12px; border-radius: 6px;
+            font-size: 10px; font-weight: 700; letter-spacing: 1px;
+        }
+        .game-badge.live {
+            background: rgba(52, 211, 153, 0.12); color: var(--green);
+            box-shadow: 0 0 12px var(--green-glow);
+        }
+        .game-badge.soon {
+            background: rgba(255,255,255,0.04); color: var(--text-dim);
+        }
+        .game-tags { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+        .gtag {
+            padding: 3px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 600;
+        }
+        .gtag.idle { background: rgba(251, 191, 36, 0.1); color: var(--gold); }
+        .gtag.clicker { background: rgba(52, 211, 153, 0.08); color: var(--green); }
+        .gtag.tba { background: rgba(255,255,255,0.03); color: var(--text-dim); }
+
+        /* ── ABOUT ── */
+        .about-section { padding: 60px 40px 80px; position: relative; z-index: 1; }
+        .about-grid {
+            display: flex; gap: 20px; justify-content: center;
+            flex-wrap: wrap; max-width: 700px; margin: 0 auto;
+        }
+        .about-card {
+            background: rgba(17, 17, 40, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px 20px;
+            width: 200px; text-align: center;
+            transition: all 0.3s;
+        }
+        .about-card:hover {
+            border-color: rgba(168, 85, 247, 0.25);
+            transform: translateY(-2px);
+        }
+        .about-icon { font-size: 28px; margin-bottom: 10px; }
+        .about-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .about-card p { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+        /* ── FOOTER ── */
+        .footer-section {
+            border-top: 1px solid var(--border);
+            padding: 32px 40px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 16px;
+        }
+        .footer-left {
+            display: flex; gap: 24px; list-style: none;
+        }
+        .footer-left a {
+            color: var(--text-dim); text-decoration: none; font-size: 12px;
+            font-weight: 600; transition: color 0.2s;
+        }
+        .footer-left a:hover { color: var(--neon-bright); }
+        .footer-right {
+            font-size: 11px; color: var(--text-dim); opacity: 0.6;
+        }
+
+        /* ── SCANLINES OVERLAY ── */
+        .scanlines {
+            position: fixed; inset: 0; z-index: 999;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.015) 2px,
+                rgba(0, 0, 0, 0.015) 4px
+            );
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 10px 20px; gap: 20px; top: 10px; }
+            .nav-links { gap: 14px; }
+            .nav-links a { font-size: 12px; }
+            .hero { padding: 80px 20px 40px; }
+            .games-section, .about-section { padding: 40px 20px; }
+            .footer-section { padding: 24px 20px; flex-direction: column; text-align: center; }
+            .float-shape { display: none; }
+            .frame-box { border-radius: 16px; }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 8px 14px; gap: 12px; border-radius: 30px; }
+            .logo { font-size: 15px; }
+            .logo-icon { width: 26px; height: 26px; font-size: 14px; border-radius: 6px; }
+            .nav-links { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particle canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- Subtle scanlines -->
+    <div class="scanlines"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon">🌱</div>
+            <span>BitBloom</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#games">Games</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="privacy-policy.html">Privacy</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN FRAME -->
+    <div class="main-frame" style="padding-top: 90px; padding-bottom: 40px;">
+        <div class="frame-box">
+
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-bg-glow"></div>
+                <div class="hero-bg-glow2"></div>
+
+                <!-- Floating decorative shapes -->
+                <div class="float-shape">🌱</div>
+                <div class="float-shape">✨</div>
+                <div class="float-shape">🎮</div>
+                <div class="float-shape">🌸</div>
+                <div class="float-shape">💫</div>
+
+                <div class="hero-content">
+                    <div class="hero-logo">🌱</div>
+                    <p class="hero-brand">BitBloom Games</p>
+                    <h1>Small Seed,<br><span class="glow-text">Big Fun.</span></h1>
+                    <p class="hero-sub">작은 아이디어에서 피어나는 재미. 한 번의 탭으로 시작하는 캐주얼 게임을 만듭니다.</p>
+                    <a href="#games" class="hero-cta">Explore Our Games ↓</a>
+                </div>
+            </section>
+
+            <!-- GAMES -->
+            <section class="games-section" id="games">
+                <div class="section-label">
+                    <h2>Our Games</h2>
+                    <p>탭 한 번으로 시작하는 작은 모험들</p>
+                </div>
+                <div class="games-grid">
+                    <!-- TabGrow -->
+                    <div class="game-card featured">
+                        <div class="game-icon gold-theme">🪙</div>
+                        <div class="game-badge live">● LIVE</div>
+                        <h3 class="game-title">TabGrow</h3>
+                        <p class="game-desc">탭으로 골드를 모으고, 업그레이드하고,<br>방치해도 성장하는 클리커 게임</p>
+                        <div class="game-tags">
+                            <span class="gtag idle">Idle</span>
+                            <span class="gtag clicker">Clicker</span>
+                        </div>
+                    </div>
+
+                    <!-- Coming Soon 1 -->
+                    <div class="game-card">
+                        <div class="game-icon purple-theme">🧩</div>
+                        <div class="game-badge soon">COMING SOON</div>
+                        <h3 class="game-title">Next Game</h3>
+                        <p class="game-desc">새로운 캐주얼 게임을<br>준비 중입니다</p>
+                        <div class="game-tags">
+                            <span class="gtag tba">TBA</span>
+                        </div>
+                    </div>
+
+                    <!-- Coming Soon 2 -->
+                    <div class="game-card">
+                        <div class="game-icon cyan-theme">🚀</div>
+                        <div class="game-badge soon">COMING SOON</div>
+                        <h3 class="game-title">Next Game</h3>
+                        <p class="game-desc">더 많은 게임이<br>곧 찾아옵니다</p>
+                        <div class="game-tags">
+                            <span class="gtag tba">TBA</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT -->
+            <section class="about-section" id="about">
+                <div class="section-label">
+                    <h2>About Us</h2>
+                    <p>Games that bloom from a single tap</p>
+                </div>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="about-icon">🎯</div>
+                        <h4>Simple</h4>
+                        <p>3초 안에 이해할 수 있는<br>직관적인 게임플레이</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">🌱</div>
+                        <h4>Growth</h4>
+                        <p>플레이할수록<br>성장하는 재미</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">✨</div>
+                        <h4>Polish</h4>
+                        <p>작지만 디테일이<br>살아있는 경험</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer-section" id="contact">
+                <ul class="footer-left">
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="mailto:jaeseong90dev@gmail.com">jaeseong90dev@gmail.com</a></li>
+                    <li><a href="https://github.com/jaeseong90" target="_blank">GitHub</a></li>
+                </ul>
+                <div class="footer-right">&copy; 2026 BitBloom Games. All rights reserved.</div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- PARTICLES JS -->
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [];
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = -(Math.random() * 0.3 + 0.1);
+                this.speedX = (Math.random() - 0.5) * 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.pulse = Math.random() * Math.PI * 2;
+                // Color: mix of purple, gold, white
+                const colors = [
+                    [168, 85, 247],  // purple
+                    [192, 132, 252], // light purple
+                    [251, 191, 36],  // gold
+                    [200, 200, 220], // white-ish
+                ];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.pulse) * 0.05;
+                this.pulse += 0.02;
+                this.opacity += Math.sin(this.pulse) * 0.002;
+                if (this.y < -10 || this.x < -10 || this.x > w + 10) this.reset();
+                if (this.y < -10) { this.y = h + 10; this.x = Math.random() * w; }
+            }
+            draw() {
+                const a = Math.max(0.02, Math.min(this.opacity, 0.6));
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color[0]},${this.color[1]},${this.color[2]},${a})`;
+                ctx.fill();
+                // Glow
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color[0]},${this.color[1]},${this.color[2]},${a * 0.15})`;
+                ctx.fill();
+            }
+        }
+
+        // Create particles
+        const count = Math.min(80, Math.floor(w * h / 15000));
+        for (let i = 0; i < count; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
+</body>
+</html>
