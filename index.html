@@ -225,6 +225,38 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+        a.game-card { cursor: pointer; }
+        .game-cta {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            color: #D4AF37;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            transition: all 0.25s;
+        }
+        a.game-card:hover .game-cta {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.12));
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
+        }
+        .game-cta.cta-purple {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(168, 85, 247, 0.05));
+            color: var(--neon-bright);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+        a.game-card:hover .game-cta.cta-purple {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.32), rgba(168, 85, 247, 0.12));
+            border-color: rgba(168, 85, 247, 0.7);
+            box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
         }
         .game-card::before {
             content: '';
@@ -294,6 +326,7 @@
         .gtag.clicker { background: rgba(52, 211, 153, 0.08); color: var(--green); }
         .gtag.puzzle { background: rgba(212, 175, 55, 0.12); color: #D4AF37; }
         .gtag.casual { background: rgba(34, 211, 238, 0.1); color: var(--cyan); }
+        .gtag.pwa { background: rgba(168, 85, 247, 0.12); color: var(--neon-bright); }
         .gtag.tba { background: rgba(255,255,255,0.03); color: var(--text-dim); }
 
         /* ── OBSIDIAN THEME (Aetheria Jigsaw) ── */
@@ -464,7 +497,7 @@
                     </div>
 
                     <!-- Aetheria Jigsaw -->
-                    <div class="game-card featured">
+                    <a class="game-card featured game-link" href="https://play.google.com/store/apps/details?id=me.jaeseong.aetheria_jigsaw" target="_blank" rel="noopener noreferrer" aria-label="Download Aetheria Jigsaw on Google Play">
                         <div class="game-icon obsidian-theme">🧩</div>
                         <div class="game-badge live">● LIVE</div>
                         <h3 class="game-title">Aetheria Jigsaw</h3>
@@ -473,7 +506,21 @@
                             <span class="gtag puzzle">Puzzle</span>
                             <span class="gtag casual">Casual</span>
                         </div>
-                    </div>
+                        <span class="game-cta" data-ko="▶ Google Play에서 다운로드" data-en="▶ Get it on Google Play">▶ Google Play에서 다운로드</span>
+                    </a>
+
+                    <!-- Tessera (PWA) -->
+                    <a class="game-card game-link" href="https://repo-red-sigma.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Play Tessera in your browser">
+                        <div class="game-icon purple-theme">🖼️</div>
+                        <div class="game-badge live">● LIVE</div>
+                        <h3 class="game-title">Tessera</h3>
+                        <p class="game-desc" data-ko="10개의 챕터를 따라 조각을 맞추는<br>브라우저 PWA 직소 퍼즐" data-en="A browser-based PWA jigsaw puzzle<br>across 10 themed chapters">10개의 챕터를 따라 조각을 맞추는<br>브라우저 PWA 직소 퍼즐</p>
+                        <div class="game-tags">
+                            <span class="gtag puzzle">Puzzle</span>
+                            <span class="gtag pwa">PWA</span>
+                        </div>
+                        <span class="game-cta cta-purple" data-ko="▶ 브라우저에서 바로 플레이" data-en="▶ Play in your browser">▶ 브라우저에서 바로 플레이</span>
+                    </a>
 
                     <!-- Coming Soon 2 -->
                     <div class="game-card">
