@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BitBloom Games — Small Seed, Big Fun</title>
-    <meta name="description" content="BitBloom Games — 작지만 빠져드는 캐주얼 모바일 게임 스튜디오. TabGrow, Aetheria Jigsaw 등 재미있는 모바일 게임을 만듭니다.">
-    <meta name="keywords" content="BitBloom Games, 모바일 게임, 캐주얼 게임, TabGrow, Aetheria Jigsaw, 인디 게임 스튜디오, mobile games, casual games">
+    <meta name="description" content="BitBloom Games — 작지만 빠져드는 캐주얼 모바일 게임 스튜디오. TabGrow, Aetheria Jigsaw, Monster Smasher 등 재미있는 게임을 만듭니다.">
+    <meta name="keywords" content="BitBloom Games, 모바일 게임, 캐주얼 게임, TabGrow, Aetheria Jigsaw, Monster Smasher, 인디 게임 스튜디오, mobile games, casual games">
     <meta name="author" content="BitBloom Games">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://jaeseong90.github.io/homepage-game/">
@@ -13,7 +13,7 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="BitBloom Games — Small Seed, Big Fun">
-    <meta property="og:description" content="BitBloom Games — 작지만 빠져드는 캐주얼 모바일 게임 스튜디오. TabGrow, Aetheria Jigsaw 등 재미있는 모바일 게임을 만듭니다.">
+    <meta property="og:description" content="BitBloom Games — 작지만 빠져드는 캐주얼 모바일 게임 스튜디오. TabGrow, Aetheria Jigsaw, Monster Smasher 등 재미있는 게임을 만듭니다.">
     <meta property="og:url" content="https://jaeseong90.github.io/homepage-game/">
     <meta property="og:site_name" content="BitBloom Games">
     <meta property="og:locale" content="ko_KR">
@@ -66,6 +66,17 @@
             "applicationCategory": "GameApplication",
             "operatingSystem": "Android, iOS",
             "description": "나만의 사진으로 직소 퍼즐을 만들고, 클래식한 퍼즐의 재미를 즐기세요"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "SoftwareApplication",
+            "name": "Monster Smasher",
+            "applicationCategory": "GameApplication",
+            "operatingSystem": "Web Browser",
+            "description": "두 명이 함께 즐기는 실시간 협동 3D 액션 게임. 고무 몬스터 군단을 통쾌하게 박살내세요"
           }
         }
       ]
@@ -403,6 +414,29 @@
             border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
+        /* ── EMBER THEME (Monster Smasher) ── */
+        .game-icon.ember-theme {
+            background: linear-gradient(135deg, #2a0f0a, #3d150d);
+            box-shadow: 0 0 24px rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .game-cta.cta-ember {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(239, 68, 68, 0.05));
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+        a.game-card:hover .game-cta.cta-ember {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.32), rgba(239, 68, 68, 0.12));
+            border-color: rgba(239, 68, 68, 0.7);
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+        }
+        .game-card.featured.ember:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 8px 40px rgba(239, 68, 68, 0.1);
+        }
+        .gtag.action { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+        .gtag.coop { background: rgba(251, 146, 60, 0.12); color: #fb923c; }
+
         /* ── LANGUAGE TOGGLE ── */
         .lang-toggle {
             background: transparent;
@@ -589,7 +623,21 @@
                         <span class="game-cta cta-purple" data-ko="▶ 브라우저에서 바로 플레이" data-en="▶ Play in your browser">▶ 브라우저에서 바로 플레이</span>
                     </a>
 
-                    <!-- Coming Soon 2 -->
+                    <!-- Monster Smasher -->
+                    <a class="game-card featured ember game-link" href="https://monster-smasher.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Play Monster Smasher in your browser">
+                        <div class="game-icon ember-theme">👊</div>
+                        <div class="game-badge live">● LIVE</div>
+                        <h3 class="game-title">Monster Smasher</h3>
+                        <p class="game-desc" data-ko="두 명이 함께 즐기는 실시간 협동 3D 액션,<br>고무 몬스터 군단을 통쾌하게 박살내세요" data-en="Real-time co-op 3D action for two,<br>smash rubber monster hordes together">두 명이 함께 즐기는 실시간 협동 3D 액션,<br>고무 몬스터 군단을 통쾌하게 박살내세요</p>
+                        <div class="game-tags">
+                            <span class="gtag action">Action</span>
+                            <span class="gtag coop">Co-op</span>
+                            <span class="gtag pwa">3D</span>
+                        </div>
+                        <span class="game-cta cta-ember" data-ko="▶ 브라우저에서 바로 플레이" data-en="▶ Play in your browser">▶ 브라우저에서 바로 플레이</span>
+                    </a>
+
+                    <!-- Coming Soon -->
                     <div class="game-card">
                         <div class="game-icon cyan-theme">🚀</div>
                         <div class="game-badge soon">COMING SOON</div>
